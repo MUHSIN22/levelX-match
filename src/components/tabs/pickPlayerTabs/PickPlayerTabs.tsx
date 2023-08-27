@@ -19,10 +19,10 @@ export default function PickPlayerTabs({
       w='100%'
     >
       <TabList>
-        <Tab>BAT({playerData?.bat?.length})</Tab>
-        <Tab>WK({playerData?.wk?.length})</Tab>
-        <Tab>AR({playerData?.ar?.length})</Tab>
-        <Tab>BOWL({playerData?.bowl?.length})</Tab>
+        <Tab fontSize='xs'>BAT({playerData?.bat?.length})</Tab>
+        <Tab fontSize='xs'>WK({playerData?.wk?.length})</Tab>
+        <Tab fontSize='xs'>AR({playerData?.ar?.length})</Tab>
+        <Tab fontSize='xs'>BOWL({playerData?.bowl?.length})</Tab>
       </TabList>
       <TabPanels>
         <TabPanel>

@@ -45,6 +45,7 @@ export default function SelectCaptainTable({
         variant='simple'
         w='100%'
         size='sm'
+        fontSize='sm'
       >
         <Thead>
           <Tr>
@@ -69,6 +70,7 @@ export default function SelectCaptainTable({
                 <Button
                   colorScheme={captain === item.playerID ? 'green' : 'telegram'}
                   onClick={() => handleSelection('c', item.playerID)}
+                  size='xs'
                 >
                   C
                 </Button>
@@ -79,6 +81,7 @@ export default function SelectCaptainTable({
                     viceCaptain === item.playerID ? 'green' : 'telegram'
                   }
                   onClick={() => handleSelection('vc', item.playerID)}
+                  size='xs'
                 >
                   VC
                 </Button>

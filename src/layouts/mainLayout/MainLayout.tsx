@@ -27,7 +27,7 @@ export default function MainLayout() {
       <Flex
         p={4}
         maxW='500px'
-        minH='100vh'
+        minH='100svh'
         w='100%'
         bg='white'
         alignItems='stretch'

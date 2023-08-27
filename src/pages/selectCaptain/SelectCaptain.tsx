@@ -1,4 +1,4 @@
-import { Button, VStack } from '@chakra-ui/react';
+import { Button, Text, VStack } from '@chakra-ui/react';
 import SelectCaptainTable from '../../components/tables/selectCaptainTable/SelectCaptainTable';
 import { useEffect, useState } from 'react';
 import useCustomToast from '../../hooks/useCustomToast/useCustomToast';
@@ -72,7 +72,8 @@ export default function SelectCaptain() {
     }
   }, [selectedPlayers, id, navigate]);
   return (
-    <VStack>
+    <VStack w='100%'>
+      <Text variant='big'>Select captain & Vice Captain</Text>
       <SelectCaptainTable
         captain={captain}
         setCaptain={setCaptain}
