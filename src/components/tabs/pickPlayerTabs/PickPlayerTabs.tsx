@@ -97,7 +97,8 @@ const playerStructure = PropTypes.arrayOf(
     role: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     eventPlayerCredit: PropTypes.number.isRequired,
-    eventTotalPoints: PropTypes.number.isRequired
+    eventTotalPoints: PropTypes.number.isRequired,
+    teamShortName: PropTypes.string.isRequired
   })
 );
 
