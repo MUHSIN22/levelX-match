@@ -71,4 +71,5 @@ export type IPlayer = {
     name: string,
     eventPlayerCredit: number;
     eventTotalPoints: number;
+    teamShortName: string;
 }

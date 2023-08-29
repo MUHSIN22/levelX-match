@@ -15,7 +15,8 @@ export const filterPlayersList = (data: { [key: string]: any }[]) => {
     role: item.role,
     name: item.name,
     eventPlayerCredit: item.event_player_credit,
-    eventTotalPoints: item.event_total_points
+    eventTotalPoints: item.event_total_points,
+    teamShortName: item.team_short_name
   }));
 
   return filteredData;

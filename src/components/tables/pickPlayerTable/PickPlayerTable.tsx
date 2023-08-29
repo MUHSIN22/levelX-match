@@ -1,12 +1,15 @@
 import {
   Checkbox,
+  Input,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
-  Tr
+  Tr,
+  VStack
 } from '@chakra-ui/react';
 import PropTypes, { InferProps } from 'prop-types';
 import useAppDispatch from '../../../hooks/useAppDispatch/useAppDispatch';
@@ -14,6 +17,7 @@ import { addPlayer } from '../../../features/root/rootSlice';
 import { IPlayer } from '../../../types/features/root.types';
 import useAppSelector from '../../../hooks/useAppSelector/useAppSelector';
 import useCustomToast from '../../../hooks/useCustomToast/useCustomToast';
+import { useMemo, useState } from 'react';
 
 export default function PickPlayerTable({
   max,
@@ -22,12 +26,18 @@ export default function PickPlayerTable({
   // Common Hooks----------------------------------
   const dispatch = useAppDispatch();
   const toast = useCustomToast();
-  
-// Redux Selectors ----------------------------------
+
+  // Redux Selectors ----------------------------------
   const {
     selectedPlayers,
     counts: { credits }
   } = useAppSelector((state) => state.root);
+
+  // State ---------------------------------------------
+  const [filteredData, setFilteredData] = useState<IPlayer[]>(
+    data as IPlayer[]
+  );
+  const [playerSearch, setPlayerSearch] = useState<string>('');
 
   /**
    * The function handles the selection and deselection of players in a game, considering various
@@ -66,6 +76,32 @@ export default function PickPlayerTable({
     dispatch(addPlayer(selectedList));
   };
 
+  const sortPlayer = (key: 'eventPlayerCredit' | 'eventTotalPoints') => {
+    const sortedData = filteredData.sort((prev, current) => {
+      if (prev?.[key] && current?.[key]) {
+        if (prev?.[key] < current?.[key]) {
+          return 1;
+        } else if (prev?.[key] > current?.[key]) {
+          return -1;
+        }
+      }
+      return 0;
+    });
+    setFilteredData([...sortedData] as IPlayer[]);
+    console.log(sortedData);
+  };
+
+  useMemo(() => {
+    if (playerSearch?.length > 0) {
+      const filteredPlayers = data.filter((player) =>
+        player?.name?.toLowerCase().includes(playerSearch.toLowerCase())
+      );
+      setFilteredData(filteredPlayers as IPlayer[]);
+    } else {
+      setFilteredData(data as IPlayer[]);
+    }
+  }, [playerSearch]);
+
   return (
     <TableContainer w='100%'>
       <Table
@@ -76,13 +112,32 @@ export default function PickPlayerTable({
         <Thead>
           <Tr>
             <Th>Select</Th>
-            <Th>Players</Th>
-            <Th>Points</Th>
-            <Th>Cr</Th>
+            <Th>
+              <VStack textAlign='left'>
+                <Text>Players</Text>
+                <Input
+                  placeholder='Search player...'
+                  onChange={(event) => setPlayerSearch(event.target.value)}
+                />
+              </VStack>
+            </Th>
+            <Th>Team</Th>
+            <Th
+              onClick={() => sortPlayer('eventTotalPoints')}
+              cursor='pointer'
+            >
+              Points
+            </Th>
+            <Th
+              onClick={() => sortPlayer('eventPlayerCredit')}
+              cursor='pointer'
+            >
+              Cr
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item) => (
+          {filteredData?.map((item) => (
             <Tr
               key={item?.playerID}
               _hover={{
@@ -97,6 +152,7 @@ export default function PickPlayerTable({
                 />
               </Td>
               <Td>{item?.name}</Td>
+              <Td>{item?.teamShortName}</Td>
               <Td>{item?.eventTotalPoints}</Td>
               <Td>{item?.eventPlayerCredit}</Td>
             </Tr>
@@ -116,7 +172,8 @@ PickPlayerTable.propTypes = {
       role: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       eventPlayerCredit: PropTypes.number.isRequired,
-      eventTotalPoints: PropTypes.number.isRequired
+      eventTotalPoints: PropTypes.number.isRequired,
+      teamShortName: PropTypes.string.isRequired
     })
   ).isRequired
 };

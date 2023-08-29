@@ -43,7 +43,7 @@ export default function PickPlayers() {
   // Redux Selectors ----------------------------------
   const {
     selectedPlayers,
-    counts: { bat, bowl, wk }
+    counts: { bat, bowl, wk, ar }
   } = useAppSelector((state) => state.root);
 
   const { matches, loading, players } = useAppSelector((state) => state.root);
@@ -170,7 +170,10 @@ export default function PickPlayers() {
     }
   }, [matches, id]);
   return (
-    <VStack w='100%'>
+    <VStack
+      w='100%'
+      pos='relative'
+    >
       <Text
         variant='big'
         fontWeight={700}
@@ -193,80 +196,120 @@ export default function PickPlayers() {
         <PickPlayerTabs playerData={structuredPlayers} />
       )}
 
-      <Button
+      <VStack
+        bg='white'
         w='100%'
-        colorScheme='green'
-        mt='auto'
-        onClick={handleProceed}
+        pos='sticky'
+        bottom={0}
+        left={0}
       >
-        Proceed
-      </Button>
-
-      <SimpleGrid
-        columns={4}
-        w='100%'
-      >
-        <VStack
-          border='2px solid black'
-          p={2}
-          gap={0}
+        <Button
+          w='100%'
+          colorScheme='green'
+          mt='auto'
+          onClick={handleProceed}
         >
-          <Text variant='regular'>{counts.players}/11</Text>
-          <Text
-            variant='regular'
-            fontWeight={600}
-          >
-            Players
-          </Text>
-        </VStack>
+          Proceed
+        </Button>
 
-        <VStack
-          border='2px solid black'
-          borderLeft='none'
-          p={2}
-          gap={0}
+        <SimpleGrid
+          columns={6}
+          w='100%'
         >
-          <Text variant='regular'>{counts.team1}</Text>
-          <Text
-            variant='regular'
-            fontWeight={600}
+          <VStack
+            border='2px solid black'
+            p={2}
+            gap={0}
           >
-            {match?.ATeam.name}
-          </Text>
-        </VStack>
+            <Text variant='regular'>{counts.players}/11</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              Players
+            </Text>
+          </VStack>
 
-        <VStack
-          border='2px solid black'
-          borderLeft='none'
-          p={2}
-          gap={0}
-        >
-          <Text variant='regular'>{counts.team2}</Text>
-          <Text
-            variant='regular'
-            fontWeight={600}
+          <VStack
+            border='2px solid black'
+            borderLeft='none'
+            p={2}
+            gap={0}
+            color={bowl < 3 ? 'red' : 'green'}
           >
-            {match?.BTeam.name}
-          </Text>
-        </VStack>
+            <Text variant='regular'>{bowl}</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              Bowl
+            </Text>
+          </VStack>
 
-        <VStack
-          border='2px solid black'
-          borderLeft='none'
-          p={2}
-          gap={0}
-        >
-          <Text variant='regular'>{counts.credits}</Text>
-          <Text
-            variant='regular'
-            fontWeight={600}
+          <VStack
+            border='2px solid black'
+            borderLeft='none'
+            p={2}
+            gap={0}
+            color={bat < 3 ? 'red' : 'green'}
           >
-            Cr Left
-          </Text>
-        </VStack>
+            <Text variant='regular'>{bat}</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              BAT
+            </Text>
+          </VStack>
 
-      </SimpleGrid>
-      
+          <VStack
+            border='2px solid black'
+            borderLeft='none'
+            p={2}
+            gap={0}
+            color={wk < 1 ? 'red' : 'green'}
+          >
+            <Text variant='regular'>{wk}</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              WK
+            </Text>
+          </VStack>
+
+          <VStack
+            border='2px solid black'
+            borderLeft='none'
+            p={2}
+            gap={0}
+            color='green'
+          >
+            <Text variant='regular'>{ar}</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              AR
+            </Text>
+          </VStack>
+
+          <VStack
+            border='2px solid black'
+            borderLeft='none'
+            p={2}
+            gap={0}
+          >
+            <Text variant='regular'>{counts.credits}</Text>
+            <Text
+              variant='regular'
+              fontWeight={600}
+            >
+              Cr Left
+            </Text>
+          </VStack>
+        </SimpleGrid>
+      </VStack>
     </VStack>
   );
 }
